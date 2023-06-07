@@ -22,6 +22,23 @@
                 </div>
             @enderror
         </div>
+
+        <div class="mb-3">
+            <label for="type_id" class="form-label @error('type_id') is-invalid @enderror">Type</label>
+            <select class="form-select form-select-lg" name="type_id" id="type_id">
+                <option value="">Select a type</option>
+                @foreach ($types as $type)
+                    <option value="{{ $type->id }}" {{ $type->id == old('type_id', '') ? 'selected' : '' }}>
+                        {{ $type->name }}</option>
+                @endforeach
+            </select>
+            @error('type_id')
+                <div class="alert alert-danger" role="alert">
+                    <strong>type_id,Error: </strong>{{ $message }}
+                </div>
+            @enderror
+        </div>
+
         <div class="mb-3">
             <label for="project_image" class="form-label">Image</label>
             <input type="text" class="form-control @error('project_image') is-invalid @enderror" name="project_image"
