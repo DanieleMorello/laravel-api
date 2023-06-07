@@ -61,7 +61,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
                                     <i class="fa-solid fa-bookmark"></i>
-                                    Categories
+                                    Types
                                 </a>
                             </li>
                             <li class="nav-item">
