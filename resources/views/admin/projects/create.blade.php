@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <h1 class="py-3">Create a new Post</h1>
+    <h1 class="py-3">Create a new Project</h1>
 
 
     @include('partials.validation_errors')
