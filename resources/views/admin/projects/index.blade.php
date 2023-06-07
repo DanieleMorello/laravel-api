@@ -23,7 +23,7 @@
 
             <tbody class="table-group-divider">
 
-                @forelse ($projects as $post)
+                @forelse ($projects as $project)
                     <tr class="table-primary">
                         <td scope="row">{{ $project->id }}</td>
                         <td>{{ $project->title }}</td>

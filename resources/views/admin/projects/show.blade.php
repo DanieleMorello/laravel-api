@@ -4,6 +4,11 @@
     <section>
         <div class="container py-5">
             <h3 class="pb-4">Title: {{ $project->title }}</h3>
+            <div class="meta">
+                <button class="btn btn-primary">
+                    <span class="badge bg-primary">{{ $project->Type?->title }}</span>
+                </button>
+            </div>
             <div class="content_container d-flex">
                 <div class="project_img_container">
                     <img src="{{ $project->project_image }}" alt="{{ $project->title }}" height="300">
