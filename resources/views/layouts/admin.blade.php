@@ -52,19 +52,20 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="#">
+                                <a class="nav-link {{ Route::currentRouteName() == 'admin.projects.index' ? 'bg-light text-dark' : '' }}"
+                                    href="{{ route('admin.projects.index') }}">
                                     <i class="fa-solid fa-thumbtack"></i>
-                                    {{ __('Posts') }}
+                                    {{ __('projects') }}
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="#">
+                                <a class="nav-link" href="#">
                                     <i class="fa-solid fa-bookmark"></i>
                                     Categories
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="#">
+                                <a class="nav-link" href="#">
                                     <i class="fa-solid fa-tags"></i>
                                     Tags
                                 </a>
