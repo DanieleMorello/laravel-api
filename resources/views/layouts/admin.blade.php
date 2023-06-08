@@ -67,7 +67,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
                                     <i class="fa-solid fa-tags"></i>
-                                    Tags
+                                    {{ __('Technologies') }}
                                 </a>
                             </li>
 

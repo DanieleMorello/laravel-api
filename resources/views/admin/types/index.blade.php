@@ -29,7 +29,7 @@
                                 <td>{{ $type->name }}</td>
                                 <td>{{ $type->slug }}</td>
                                 <td>
-                                    {{-- <span class="badge bg-dark">{{ $projects->types->count() }}</span> --}}
+                                    <span class="badge bg-dark">{{ $type->projects->count() }}</span>
 
                                 </td>
                                 <td>
