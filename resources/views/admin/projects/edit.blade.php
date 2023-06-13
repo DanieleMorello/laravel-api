@@ -7,7 +7,7 @@
 
     @include('partials.validation_errors')
 
-    <form action="{{ route('admin.projects.update', $project) }}" method="post">
+    <form action="{{ route('admin.projects.update', $project) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -16,7 +16,7 @@
             <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title"
                 aria-describedby="titleHelper" placeholder="Type your project title here..."
                 value="{{ old('title', $project->title) }}">
-            <small id="titleHelper" class="form-text text-muted">Type the post title max 150 characters - must be
+            <small id="titleHelper" class="form-text text-muted">Type the project title max 150 characters - must be
                 unique</small>
             @error('title')
                 <div class="alert alert-danger" role="alert">
@@ -30,8 +30,8 @@
             <select class="form-select form-select-lg" name="type_id" id="type_id">
                 <option value="">Select a type</option>
                 @foreach ($types as $type)
-                    <option value="{{ $type->id }}" {{ $type->id == old('type_id', '') ? 'selected' : '' }}>
-                        {{ $type->name }}</option>
+                    <option value="{{ $type?->id }}" {{ $type?->id == old('type_id', '') ? 'selected' : '' }}>
+                        {{ $type?->name }}</option>
                 @endforeach
             </select>
             @error('type_id')
@@ -41,18 +41,37 @@
             @enderror
         </div>
 
-        <div class="mb-3">
-            <label for="project_image" class="form-label">Image</label>
-            <input type="text" class="form-control @error('project_image') is-invalid @enderror" name="project_image"
-                id="project_image" aria-describedby="project_imageHelper" placeholder="Type your project Image URL here..."
-                value="{{ old('project_image', $project->project_image) }}">
-            <small id="project_imageHelper" class="form-text text-muted">Type the post project_image max 255
-                characters</small>
-            @error('project_image')
-                <div class="alert alert-danger" role="alert">
-                    <strong>Image, Error: </strong>{{ $message }}
+        <div class='form-group col-12'>
+            <label class='form-label'>Select technologies:</label>
+            @foreach ($technologies as $technology)
+                <div class="form-check @error('technologies') is-invalid @enderror">
+                    <label class='form-check-label'>
+                        @if ($errors->any())
+                            <input name="technologies[]" type="checkbox" value="{{ $technology->id }}"
+                                class="form-check-input"
+                                {{ in_array($technology->id, old('technologies', [])) ? 'checked' : '' }}>
+                        @else
+                            <input name='technologies[]' type='checkbox' value='{{ $technology->id }}'
+                                class='form-check-input' {{-- {{ $project->technologies->contains($technology) ? 'checked' : '' }} --}}>
+                        @endif
+                        {{ $technology->name }}
+                    </label>
                 </div>
+            @endforeach
+            @error('technologies')
+                <div class='invalid-feedback'>{{ $message }}</div>
             @enderror
+        </div>
+
+        <div class="d-flex gap-3">
+            <img width="100" src="{{ asset('storage/' . $project->project_image) }}" alt="">
+
+            <div class="mb-3">
+                <label for="project_image" class="form-label">Replace Image</label>
+                <input type="file" class="form-control @error('project_image') is-invalid @enderror" name="project_image"
+                    id="project_image" aria-describedby="project_imageHelper" placeholder="Type your project Image here...">
+                <small id="project_imageHelper" class="form-text text-muted">Type the project_image max 950k</small>
+            </div>
         </div>
 
         <div class="mb-3">

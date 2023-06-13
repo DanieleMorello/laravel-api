@@ -27,7 +27,8 @@
                     <tr class="table-primary">
                         <td scope="row">{{ $project->id }}</td>
                         <td>{{ $project->title }}</td>
-                        <td><img height="100" src="{{ $project->project_image }}" alt="{{ $project->title }}"></td>
+                        <td><img height="100" src="{{ asset('storage/' . $project->project_image) }}"
+                                alt="{{ $project->title }}"></td>
                         <td>{{ $project->project_live_url }}</td>
                         <td>{{ $project->project_source_code }}</td>
                         <td>
@@ -86,5 +87,6 @@
                 @endforelse
             </tbody>
         </table>
+        {{ $projects->links('pagination::bootstrap-5') }}
     </div>
 @endsection

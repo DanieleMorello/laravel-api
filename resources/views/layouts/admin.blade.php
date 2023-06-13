@@ -25,16 +25,16 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow py-3">
-            <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">BoolPress</a>
+            <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Persona Portfolio</a>
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
                 data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="#">Sign out</a>
+                    <a class="nav-link" href="{{ url('/') }}">Sign out</a>
                 </li>
             </ul>
         </nav>
@@ -45,8 +45,8 @@
                     <div class="position-fixed pt-3">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link {{ Route::currentRouteName() == 'admin.dashboard' ? 'bg-light text-dark' : '' }}"
-                                    aria-current="page" href="{{ route('admin.dashboard') }}">
+                                <a class="nav-link {{ Route::currentRouteName() == 'admin.admin' ? 'bg-light text-dark' : '' }}"
+                                    aria-current="page" href="{{ route('admin.admin') }}">
                                     <i class="fa-solid fa-house"></i>
                                     {{ __('Dashboard') }}
                                 </a>
@@ -65,7 +65,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="{{ route('admin.technologies.index') }}">
                                     <i class="fa-solid fa-tags"></i>
                                     {{ __('Technologies') }}
                                 </a>

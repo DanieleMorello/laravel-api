@@ -11,7 +11,7 @@
             </div>
             <div class="content_container d-flex">
                 <div class="project_img_container">
-                    <img src="{{ $project->project_image }}" alt="{{ $project->title }}" height="300">
+                    <img src="{{ asset('storage/' . $project->project_image) }}" alt="{{ $project->title }}" height="300">
                 </div>
                 <div class="project_info ps-4">
                     <p><strong>Description:</strong><br>{{ $project->description }}</p>

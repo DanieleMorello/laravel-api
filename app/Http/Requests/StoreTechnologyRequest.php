@@ -13,7 +13,7 @@ class StoreTechnologyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class StoreTechnologyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'image' => ['image', 'max:955']
         ];
     }
 }

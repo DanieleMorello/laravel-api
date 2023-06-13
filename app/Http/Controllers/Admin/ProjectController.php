@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
 use App\Models\type;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -18,9 +20,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
-        // dd($projects)
-        return view('admin.projects.index', compact('projects'));
+        $types = Type::all();
+        $projects = Project::orderByDesc('id')->paginate(8);
+        return view('admin.projects.index', compact('projects', 'types'));
     }
 
     /**
@@ -50,7 +52,21 @@ class ProjectController extends Controller
         $slug = Project::generateSlug($val_data['title']);
         $val_data['slug'] = $slug;
 
-        Project::create($val_data);
+        $val_data['user_id'] = Auth::id();
+        // dd($val_data);
+
+        if ($request->hasFile('project_image')) {
+            $image_path = Storage::put('uploads', $request->project_image);
+            // dd($image_path);
+            $val_data['project_image'] = $image_path;
+            // dd($val_data);
+        }
+
+        $new_project = Project::create($val_data);
+
+        if ($request->has('technologies')) {
+            $new_project->technologies()->attach($request->technologies);
+        }
 
         return to_route('admin.projects.index')->with('message', 'Project created successfully!');
     }
@@ -74,8 +90,14 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $technologies = Technology::orderByDesc('id')->get();
         $types = Type::orderByDesc('id')->get();
-        return view('admin.projects.edit', compact('project', 'types'));
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
+
+        if (Auth::id() === $project->user_id) {
+            return view('admin.projects.edit', compact('project', 'types', 'technologies'));
+        }
+        abort(403);
     }
 
     /**
@@ -91,7 +113,27 @@ class ProjectController extends Controller
         $slug = Project::generateSlug($val_data['title']);
         $val_data['slug'] = $slug;
 
+        if ($request->hasFile('project_image')) {
+            //dd('here');
+
+            //if project->project_image
+            // delete the previous image
+
+            if ($project->project_image) {
+                Storage::delete($project->project_image);
+            }
+
+            // Save the file in the storage and get its path
+            $image_path = Storage::put('uploads', $request->project_image);
+            //dd($image_path);
+            $val_data['project_image'] = $image_path;
+        }
+
         $project->update($val_data);
+
+        if ($request->has('technologies')) {
+            // $project->technologies()->sync($request->technologies);
+        }
 
         return to_route('admin.projects.index')->with('message', 'Project updated successfully');
     }
@@ -104,6 +146,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        // remove the image from the storage
+        if ($project->project_image) {
+            Storage::delete($project->project_image);
+        }
         $project->delete();
         return to_route('admin.projects.index')->with('message', 'Project deleted successfully!');
     }

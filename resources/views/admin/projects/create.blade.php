@@ -7,7 +7,7 @@
 
     @include('partials.validation_errors')
 
-    <form action="{{ route('admin.projects.store') }}" method="post">
+    <form action="{{ route('admin.projects.store') }}" method="post" enctype="multipart/form-data">
         @csrf
 
         <div class="mb-3">
@@ -39,10 +39,26 @@
             @enderror
         </div>
 
+        <div class='form-group col-12'>
+            <label class="form-label">Select technologies:</label>
+            @foreach ($technologies as $technology)
+                <div class="form-check @error('technologies') is-invalid @enderror">
+                    <label class='form-check-label'>
+                        <input name='technologies[]' type='checkbox' value='{{ $technology->id }}' class='form-check-input'
+                            {{ in_array($technology->id, old('technologies', [])) ? 'checked' : '' }}>
+                        {{ $technology->name }}
+                    </label>
+                </div>
+            @endforeach
+            @error('technologies')
+                <div class='invalid-feedback'>{{ $message }}</div>
+            @enderror
+        </div>
+
         <div class="mb-3">
             <label for="project_image" class="form-label">Image</label>
-            <input type="text" class="form-control @error('project_image') is-invalid @enderror" name="project_image"
-                id="project_image" aria-describedby="project_imageHelper" placeholder="Type your project Image URL here..."
+            <input type="file" class="form-control @error('project_image') is-invalid @enderror" name="project_image"
+                id="project_image" aria-describedby="project_imageHelper" placeholder="Type your project Image here..."
                 value="{{ old('project_image') }}">
             <small id="project_imageHelper" class="form-text text-muted">Type the post project_image max 255
                 characters</small>
