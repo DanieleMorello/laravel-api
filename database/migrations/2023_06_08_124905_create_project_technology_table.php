@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('project_technology', function (Blueprint $table) {
-            $table->id();
+
             // Add project_id column
             $table->unsignedBigInteger('project_id');
             // Add foreign key
@@ -27,7 +27,6 @@ return new class extends Migration
 
             // Add primary key
             $table->primary(['project_id', 'technology_id']);
-            $table->timestamps();
         });
     }
 
