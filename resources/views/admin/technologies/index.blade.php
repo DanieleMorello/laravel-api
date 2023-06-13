@@ -18,7 +18,6 @@
                             <th>Image</th>
                             <th scope="col">Name</th>
                             <th scope="col">Slug</th>
-                            <th scope="col">Projects Count</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -32,20 +31,16 @@
                                         @csrf
 
                                         <input type="text" name="name" id="name"
-                                            class="form-control border-0 bg-transparent" value="{{ tag->name }}"
-                                            aria-describedby="editInput-{{ technology->id }}">
+                                            class="form-control border-0 bg-transparent" value="{{ $technology->name }}"
+                                            aria-describedby="editInput-{{ $technology->id }}">
                                         <span class="input-group-text border-0"><i class="fa-regular fa-pencil"
-                                                id="editInput-{{ technology->id }}"></i></span>
+                                                id="editInput-{{ $technology->id }}"></i></span>
                                     </form>
                                     <small>Press enter to update the technology name</small>
                                 </td>
                                 <td><img src="{{ $technology->image }}" width="200" alt="{{ $technology->name }}"></td>
                                 <td>{{ $technology->name }}</td>
                                 <td>{{ $technology->slug }}</td>
-                                <td>
-                                    <span class="badge bg-dark">{{ $technology->projects->count() }}</span>
-
-                                </td>
                                 <td>
                                     <!-- Modal trigger button -->
                                     <button technology="button" class="btn btn-danger" data-bs-toggle="modal"
