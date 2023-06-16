@@ -25,7 +25,7 @@ class StoreTechnologyRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'image' => ['image', 'max:955']
+            'technology_image' => ['image', 'max:955']
         ];
     }
 }

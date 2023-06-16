@@ -10,7 +10,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::orderByDesc('id')->get();
+        $projects = Project::orderByDesc('id')->paginate(6);
 
         return response()->json([
             'success' => true,
@@ -18,7 +18,7 @@ class ProjectController extends Controller
         ]);
     }
     public function show($slug) {
-        $projects = Project::with('type', 'technologies', 'user')-where('slug', $slug)->first();
+        $project = Project::with(['type', 'technologies', 'user'])-where('slug', $slug)->first();
         // dd($project);
         if($project) {
             return response()->json([
