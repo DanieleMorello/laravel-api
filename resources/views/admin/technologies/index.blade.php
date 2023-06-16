@@ -3,7 +3,7 @@
 
 @section('content')
     <h1>Show Technology Table</h1>
-    <a class="btn btn-dark" href="{{ route('admin.projects.create') }}" role="button">Create technology</a>
+    <a class="btn btn-dark my-3" href="{{ route('admin.technologies.create') }}" role="button">Create technology</a>
 
     @include('partials.session_message')
 

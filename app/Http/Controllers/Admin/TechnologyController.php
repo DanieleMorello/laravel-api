@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateTechnologyRequest;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Storage;
 class TechnologyController extends Controller
 {
     /**
@@ -40,11 +40,29 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        // dd($request);
+        // dd($request->all());
         $val_data = $request->validated();
-        $val_data['slug'] = Str::slug($request->name);
-        Technology::create($val_data);
-        return to_route('admin.technologies.index')->with('message', 'Technology created successfully');
+        // dd($val_data);
+
+        $slug = Technology::generateSlug($val_data['name']);
+        $val_data['slug'] = $slug;
+
+        $val_data['user_id'] = Auth::id();
+        // dd($val_data);
+
+        if ($request->hasFile('technology_image')) {
+            $image_path = Storage::put('uploads', $request->technology_image);
+            // dd($image_path);
+            $val_data['technology_image'] = $image_path;
+            // dd($val_data);
+        }
+        $new_technology = Technology::create($val_data);
+
+        // if ($request->has('technologies')) {
+        //     $new_technology->technologies()->attach($request->technologies);
+        // }
+
+        return to_route('admin.technologies.index')->with('message', 'technology created successfully!');
     }
 
     /**
@@ -78,10 +96,32 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
-        // dd($request->all());
         $val_data = $request->validated();
-        $val_data['slug'] = Str::slug($request->name);
+        $slug = Technology::generateSlug($val_data['name']);
+        $val_data['slug'] = $slug;
+
+        if ($request->hasFile('technology_image')) {
+            //dd('here');
+
+            //if technology->technology_image
+            // delete the previous image
+
+            if ($technology->technology_image) {
+                Storage::delete($technology->technology_image);
+            }
+
+            // Save the file in the storage and get its path
+            $image_path = Storage::put('uploads', $request->technology_image);
+            //dd($image_path);
+            $val_data['technology_image'] = $image_path;
+        }
+
         $technology->update($val_data);
+
+        if ($request->has('technologies')) {
+            $technology->technologies()->sync($request->technologies);
+        }
+
         return to_route('admin.technologies.index')->with('message', 'Technology updated successfully');
     }
 

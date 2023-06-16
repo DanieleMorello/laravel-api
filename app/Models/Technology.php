@@ -12,7 +12,7 @@ class Technology extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'technology_image'];
+    protected $fillable = ['name', 'slug', 'technology_image','user_id'];
 
     public static function generateSlug($name)
     {
